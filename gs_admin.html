@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru" ng-app="admin" ng-controller="CommonController">
+	<head>
+	
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		
+		<title>Тест</title>
+		
+		<script type="text/javascript" src="static/app/lib/jquery.js"></script>
+		<script type="text/javascript" src="static/app/lib/angular.js"></script>
+		<script type="text/javascript" src="static/app/lib/angular-route.js"></script>
+		<script type="text/javascript" src="static/app/lib/angular-ui-router.min.js"></script>
+		<script type="text/javascript" src="static/app/lib/angular-resource.min.js"></script>
+		<script type="text/javascript" src="static/app/lib/ui-bootstrap-tpls-0.11.0.min.js"></script>
+		<script type="text/javascript" src="static/app/app.js"></script>
+
+        <link rel="stylesheet" href="static/app/lib/bootstrap.css"/>
+		
+	</head>
+	<body>
+
+		<div class="block-content">
+		    <div class="container">
+
+                <div class="page-header">
+                    <div class="alert alert-success">
+                        <label>Введите номер сервера</label>
+                        <input class="form-control" ng-model="data.server">
+                    </div>
+
+
+                    <ul class="nav nav-pills">
+                        <li><a ui-sref="current_games" ui-sref-active="text-muted">Текущие игры</a></li>
+                        <li><a ui-sref="archive_games" ui-sref-active="text-muted">Архив</a></li>
+                        <li><a ui-sref="users" ui-sref-active="text-muted">Пользователи</a></li>
+                    </ul>
+                </div>
+				
+				<div class="row center" ui-view></div>
+
+			</div>
+		</div>
+
+	</body>
+</html>

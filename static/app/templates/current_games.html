@@ -1,0 +1,30 @@
+<div>
+
+    <div class="col-xs-1">
+        <button type="button" class="btn btn-success" ng-click='getPage(-1)'>Назад</button>
+    </div>
+    <div class="col-xs-10">
+        <table class="table" ng-show='games'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Тип</th>
+                    <th>Белые</th>
+                    <th>Черные</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="" ng-repeat="game in games">
+                    <td>{{game.id}}</td>
+                    <td>{{game.game_type}}</td>
+                    <td>{{game.white_id}}</td>
+                    <td>{{game.black_id}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-xs-1">
+        <button type="button" class="btn btn-success" ng-click='getPage(1)'>Вперёд</button>
+    </div>
+	<div ui-view></div>
+</div>
