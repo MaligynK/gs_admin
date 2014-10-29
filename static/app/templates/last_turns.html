@@ -27,8 +27,8 @@
                         <tr ng-repeat="turn in turns | filter:search | limitTo:100 as results">
                             <td>{{$index +1}}</td>
                             <td>{{turn.turn}}</td>
-                            <td ng-click='searchID(turn.game_id)' ><mmm class="btn btn-link btn-xs">{{turn.game_id}}</mmm></td>
-                            <td ng-click='searchID(turn.user_id)' ><mmm class="btn btn-link btn-xs">{{turn.user_id}}</mmm></td>
+                            <td><linkid ng-click='searchID(turn.game_id)' class="btn btn-link btn-xs">{{turn.game_id}}</linkid></td>
+                            <td><linkid ng-click='searchID(turn.user_id)' class="btn btn-link btn-xs">{{turn.user_id}}</linkid></td>
                             <td><span class="glyphicon {{turn.color?'glyphicon-ok-sign':'glyphicon-ok-circle'}}">{{turn.color?' Черные':' Белые'}}</span></td>
                             <td>{{turn.num}}</td>
                             <td>{{time.setTime(+turn.time)?time.toLocaleString():0}}</td>
