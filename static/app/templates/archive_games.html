@@ -1,26 +1,44 @@
-<div>
+<div ng-show='games'>
 
-
-    <div class="col-xs-5">
-        <table class="table" ng-show='archive_games'>
-            <thead>
-                <tr>
-                    <td>ID</td>
-                    <td>Тип</td>
-                    <td>Белые</td>
-                    <td>Черные</td>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="" ng-repeat="game in archive_games">
-                    <td>{{game.id}}</td>
-                    <td>{{game.game_type}}</td>
-                    <td>{{game.white_id}}</td>
-                    <td>{{game.black_id}}</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="col-xs-1">
+        <!-- <button type="button" class="btn btn-success" ng-click='getPage(-1)'>Назад</button> -->
     </div>
-
-	<div class="col-xs-7" ui-view></div>
+    <div class="col-xs-10">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <label>
+                    Показано {{results.length}} из {{games.length}} игр
+                </label>
+                <input class="form-control" ng-model="search" placeholder="Фильтрация">
+            </div>
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>ID</th>
+                            <th>Тип</th>
+                            <th>Белые</th>
+                            <th>Черные</th>
+                            <th>Результат</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="game in games | filter:search | limitTo:-games.length+100*page | limitTo:100 as results">
+                            <td>{{100*page + $index +1}}</td>
+                            <td><a ng-href="http://1chess.org/#/game/{{game.id}}_{{server}}">{{game.id}}</a></td>
+                            <td>{{game.game_type}}</td>
+                            <td>{{game.white_id}}</td>
+                            <td>{{game.black_id}}</td>
+                            <td>{{status[game.result]}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-1">
+        <!-- <button type="button" class="btn btn-success" ng-click='getPage(1)'>Вперёд</button> -->
+    </div>
+	<div ui-view></div>
 </div>
