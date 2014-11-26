@@ -1,0 +1,26 @@
+<div>
+
+
+    <div class="col-xs-5">
+        <table class="table" ng-show='users'>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Тип</td>
+                    <td>Белые</td>
+                    <td>Черные</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="" ng-repeat="user in users">
+                    <td>{{users.id}}</td>
+                    <td>{{game.game_type}}</td>
+                    <td>{{game.white_id}}</td>
+                    <td>{{game.black_id}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+	<div class="col-xs-7" ui-view></div>
+</div>
