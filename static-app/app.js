@@ -7,40 +7,46 @@ app.config(function($httpProvider){
 
 
 app.service('dataService', [
-        '$log',
-        function ($log) {
+        function () {
+
+
             this.data = {};
+            this.status = {
+                0: 'Ход белых',
+                1: 'Ход черных',
+                11: 'Победа белых',
+                12: 'Победа белых - время истекло',
+                13: 'Победа белых - оппонент сдался',
+                21: 'Победа черных',
+                22: 'Победа черных - время истекло',
+                23: 'Победа черных - оппонент сдался',
+                30: 'Ничья',
+                31: 'Пат',
+                32: 'Правило 50 ходов',
+                33: 'Правило трех повторений',
+                34: 'Недостаточно фигур, чтобы поставить мат',
+                40: 'Белые отменили игру',
+                41: 'Черные отменили игру',
+                42: 'Игра отменена - время истекло',
+                50: 'Ожидание противника'
+            };
         }
-])
+]);
 
 
 
-app.controller('CommonController', ['$scope', 'dataService',
-	function ($scope, dataService){
-        $scope.data = {};
-        $scope.data.server = 5001;
-        dataService.data = $scope.data;
+app.controller('CommonController', ['$scope', '$window', 'dataService',
+	function ($scope, $window, dataService){
 
-        dataService.status = {
-                        0:  'Ход белых',
-                        1:  'Ход черных',
-                        11: 'Победа белых',
-                        12: 'Победа белых - время истекло',
-                        13: 'Победа белых - оппонент сдался',
-                        21: 'Победа черных',
-                        22: 'Победа черных - время истекло',
-                        23: 'Победа черных - оппонент сдался',
-                        30: 'Ничья',
-                        31: 'Пат',
-                        32: 'Правило 50 ходов',
-                        33: 'Правило трех повторений',
-                        34: 'Недостаточно фигур, чтобы поставить мат',
-                        40: 'Белые отменили игру',
-                        41: 'Черные отменили игру',
-                        42: 'Игра отменена - время истекло',
-                        50: 'Ожидание противника'
+
+        $scope.changeServer = function(){
+            $window.localStorage.server = dataService.server = $scope.server;
         };
 
+        $scope.data = {};
+        $scope.server = $window.localStorage.server?$window.localStorage.server:5002;
+        $window.localStorage.server = dataService.server = $scope.server;
+     //   dataService.data = $scope.data;
 
 	}
 ]);
@@ -58,8 +64,10 @@ app.config(function($stateProvider, $routeProvider){
                     controller: ['$scope', '$http', 'dataService', '$log',
                         function ($scope, $http, dataService, $log) {
                             $scope.status = dataService.status;
-                            $scope.server = dataService.data.server;
-                            $http.jsonp('http://gs' + $scope.server + '.1chess.org/gs_admin/games.get/?callback=JSON_CALLBACK').success(function (data) {
+
+                            $http.jsonp('http://gs' + dataService.server
+                                        + '.1chess.org/gs_admin/games.get/'
+                                        + '?callback=JSON_CALLBACK').success(function (data) {
                                 $scope.games = data.items;
                                 $scope.page = 0;
                             }).error(function (err) {
@@ -85,10 +93,11 @@ app.config(function($stateProvider, $routeProvider){
                     templateUrl: "static-app/templates/archive_games.html",
                     controller: ['$scope', '$http', '$q', 'dataService', '$log',
                         function($scope, $http, $q, dataService, $log) {
-
                             $scope.status = dataService.status;
 
-                            $http.jsonp('http://gs' + dataService.data.server + '.1chess.org/gs_admin/archive_games.get/?callback=JSON_CALLBACK').success(function (data) {
+                            $http.jsonp('http://gs' + dataService.server
+                                        + '.1chess.org/gs_admin/archive_games.get/'
+                                        + '?callback=JSON_CALLBACK').success(function (data) {
                                 $scope.games = data.items;
                                 $scope.page = 0;
                             }).error(function (err) {
@@ -115,9 +124,11 @@ app.config(function($stateProvider, $routeProvider){
                     templateUrl: "static-app/templates/last_turns.html",
                     controller: ['$scope', '$http', '$q', 'dataService', '$log',
                         function($scope, $http, $q, dataService, $log) {
-                            $scope.server = dataService.data.server;
+
                             $scope.time = new Date();
-                            $http.jsonp('http://gs' + $scope.server + '.1chess.org/gs_admin/turns.get/?callback=JSON_CALLBACK').success(function (data) {
+                            $http.jsonp('http://gs' + dataService.server
+                                        + '.1chess.org/gs_admin/turns.get/'
+                                        + '?callback=JSON_CALLBACK').success(function (data) {
                                 $scope.turns = data.items;
                             }).error(function (err) {
                                 $log.info('error',err);
@@ -139,7 +150,6 @@ app.config(function($stateProvider, $routeProvider){
                     templateUrl: "static-app/templates/users.html",
                     controller: ['$scope', '$http', '$q', '$stateParams',
                         function($scope, $http, $q, $stateParams) {
-
 
 
                         }
