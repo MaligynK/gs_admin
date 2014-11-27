@@ -35,12 +35,13 @@ app.service('dataService', [
 
 
 
-app.controller('CommonController', ['$scope', '$window', 'dataService',
-	function ($scope, $window, dataService){
+app.controller('CommonController', ['$scope', '$window', 'dataService', '$state',
+	function ($scope, $window, dataService, $state){
 
 
         $scope.changeServer = function(){
             $window.localStorage.server = dataService.server = $scope.server;
+            $state.go('clear');
         };
 
         $scope.data = {};
@@ -52,8 +53,7 @@ app.controller('CommonController', ['$scope', '$window', 'dataService',
 ]);
 
 
-
-app.config(function($stateProvider, $routeProvider){
+app.config(function($stateProvider){
 
     $stateProvider
         .state('current_games', {
@@ -143,13 +143,12 @@ app.config(function($stateProvider, $routeProvider){
         })
 
 
-        .state('users', {
-            url: '/users',
+        .state('clear', {
+            url: '/',
             views: {
                 '': {
-                    templateUrl: "static-app/templates/users.html",
-                    controller: ['$scope', '$http', '$q', '$stateParams',
-                        function($scope, $http, $q, $stateParams) {
+                    controller: [
+                        function() {
 
 
                         }
@@ -159,4 +158,6 @@ app.config(function($stateProvider, $routeProvider){
         })
 
 });
+
+
 
